@@ -1,0 +1,80 @@
+$green-primary: #71b350;
+$purple: #8879f2;
+
+html * {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.navbar {
+  margin: 0;
+  padding: 0;
+  background-color: $green-primary;
+  overflow: hidden;
+
+  .heading {
+    display: block;
+    padding: 1rem;
+  }
+
+  h5 {
+    text-align: left;
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 0;
+    width: 100%;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  li {
+    height: 2.5rem;
+    width: 100%;
+    border-bottom: 3px solid transparent;
+  }
+
+  li:hover {
+    border-bottom: 3px solid $purple;
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  ul a {
+    opacity: 0.7;
+  }
+
+  .navHeader {
+    text-align: center;
+  }
+}
