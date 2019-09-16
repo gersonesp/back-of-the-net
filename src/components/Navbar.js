@@ -5,19 +5,27 @@ class Navbar extends Component {
   render() {
     return (
       <div className="navbar">
-        <Link to="/">
-          <h1>Back of The Net</h1>
+        <Link to="/" className="heading">
+          <h5>Back of The Net</h5>
         </Link>
 
         <ul>
           <li>
-            <Link to="/matches">Matches</Link>
+            <Link to="/" id="matches">
+              Matches
+            </Link>
           </li>
+
           <li>
-            <Link to="/players">Players</Link>
+            <Link to="/players" id="players">
+              Players
+            </Link>
           </li>
+
           <li>
-            <Link to="/livewatch">Live Watch</Link>
+            <Link to="/livewatch" id="livewatch">
+              Live Watch
+            </Link>
           </li>
         </ul>
       </div>

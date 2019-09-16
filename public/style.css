@@ -45,9 +45,6 @@ body {
   width: 100%;
   border-bottom: 3px solid transparent;
 }
-.navbar li:hover {
-  border-bottom: 3px solid #8879f2;
-}
 .navbar a {
   display: flex;
   justify-content: center;
@@ -63,10 +60,6 @@ body {
 }
 .navbar ul a {
   opacity: 0.7;
-}
-.navbar ul a:focus {
-  color: white;
-  opacity: 1;
 }
 .navbar .navHeader {
   text-align: center;
