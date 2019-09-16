@@ -10,12 +10,11 @@ class Matches extends Component {
   }
 
   render() {
-    console.log(this.props.matches.length > 0 && this.props.matches);
     const matches = this.props.matches;
 
     return (
       <div className="matchesList">
-        <h1 className="matchesHeader">Matches View</h1>
+        <h1 className="matchesHeader">Matches</h1>
 
         <div className="listAllMatches">
           {matches.map(match => (

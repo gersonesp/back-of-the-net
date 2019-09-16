@@ -85,5 +85,10 @@ body {
   text-align: center;
   border-style: solid;
 }
+.oneMatch .matchCard {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
 
 /*# sourceMappingURL=style.css.map */

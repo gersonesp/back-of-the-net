@@ -100,4 +100,10 @@ body {
   padding: 0;
   text-align: center;
   border-style: solid;
+
+  .matchCard {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+  }
 }
