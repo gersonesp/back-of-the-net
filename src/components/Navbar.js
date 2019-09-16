@@ -1,31 +1,46 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
   render() {
     return (
       <div className="navbar">
-        <Link to="/" className="heading">
+        <NavLink to="/" className="heading">
           <h5>Back of The Net</h5>
-        </Link>
+        </NavLink>
 
         <ul>
           <li>
-            <Link to="/" id="matches">
+            <NavLink
+              exact
+              to="/"
+              id="matches"
+              activeStyle={{ opacity: "1", borderBottom: "3px solid #8879f2" }}
+            >
               Matches
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link to="/players" id="players">
+            <NavLink
+              exact
+              to="/players"
+              id="players"
+              activeStyle={{ opacity: "1", borderBottom: "3px solid #8879f2" }}
+            >
               Players
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link to="/livewatch" id="livewatch">
+            <NavLink
+              exact
+              to="/livewatch"
+              id="livewatch"
+              activeStyle={{ opacity: "1", borderBottom: "3px solid #8879f2" }}
+            >
               Live Watch
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>

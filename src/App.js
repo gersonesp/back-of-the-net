@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
-import axios from "axios";
+import { Route } from "react-router-dom";
+
+import Matches from "./components/Matches";
+import Players from "./components/Players";
+import LiveWatch from "./components/LiveWatch";
 
 class App extends Component {
   constructor(props) {
@@ -11,14 +15,28 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const data = axios.get("/").then(res => res);
-    console.log(data);
+    fetch("/api/matches")
+      .then(response => response.json())
+      .then(matches =>
+        this.setState({
+          matches
+        })
+      );
   }
 
   render() {
     return (
       <div className="App">
-        <Navbar />
+        <Navbar matches={this.state} />
+
+        <Route
+          exact
+          path="/"
+          render={props => <Matches {...props} matches={this.state.matches} />}
+        />
+
+        <Route exact path="/players" component={Players} />
+        <Route exact path="/livewatch" component={LiveWatch} />
       </div>
     );
   }

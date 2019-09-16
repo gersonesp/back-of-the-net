@@ -7,7 +7,7 @@ const unirest = require("unirest");
 const fixturesURL =
   "https://sportdata.p.rapidapi.com/api/v1/free/soccer/matches/fixtures/premier-league";
 
-app.get("/", (req, res) => {
+app.get("/api/matches", (req, res) => {
   const fixtures = unirest("GET", fixturesURL);
 
   fixtures.headers({

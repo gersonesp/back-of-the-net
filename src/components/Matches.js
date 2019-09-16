@@ -1,21 +1,27 @@
 import React, { Component } from "react";
+import OneMatch from "./OneMatch";
 
 class Matches extends Component {
-  componentDidMount() {
-    document.getElementById("matches").style.opacity = "1";
-    document.getElementById("matches").style.borderBottom = "3px solid #8879f2";
-  }
-
-  componentWillUnmount() {
-    document.getElementById("matches").style.opacity = ".7";
-    document.getElementById("matches").style.borderBottom =
-      "3px solid transparent";
+  constructor(props) {
+    super(props);
+    this.state = {
+      matches: []
+    };
   }
 
   render() {
+    console.log(this.props.matches.length > 0 && this.props.matches);
+    const matches = this.props.matches;
+
     return (
-      <div>
+      <div className="matchesList">
         <h1 className="matchesHeader">Matches View</h1>
+
+        <div className="listAllMatches">
+          {matches.map(match => (
+            <OneMatch key={match.idd} match={match} />
+          ))}
+        </div>
       </div>
     );
   }

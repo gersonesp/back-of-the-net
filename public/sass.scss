@@ -17,6 +17,7 @@ body {
   height: 100%;
 }
 
+//Navbar Component
 .navbar {
   margin: 0;
   padding: 0;
@@ -73,4 +74,30 @@ body {
   .navHeader {
     text-align: center;
   }
+}
+
+
+//Matches Component
+.matchesList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .matchesHeader {
+    width: 100%;
+    text-align: center;
+  }
+
+  .listAllMatches {
+    width: 100%;
+  }
+}
+
+//OneMatch Component
+.oneMatch {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  border-style: solid;
 }
