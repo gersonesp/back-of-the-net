@@ -82,6 +82,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 1em 0 1em;
 
   .matchesHeader {
     width: 100%;
@@ -91,19 +92,41 @@ body {
   .listAllMatches {
     width: 100%;
   }
-}
 
-//OneMatch Component
-.oneMatch {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  border-style: solid;
-
-  .matchCard {
+  .oneMatch {
     display: flex;
     flex-direction: column;
     align-content: space-between;
+    margin-bottom: 1em;
+    border-style: solid;
+
+    #day {
+      padding: .8em 1em 0 1em;
+      border-bottom: 1px solid;
+    }
+
+    #teamContainer {
+      padding: .3em 2em 1em 2em;
+    }
+
+    #homeTeam {
+      display: flex;
+      justify-content: space-between;
+      margin: 1em 0 1em 0;
+      border-style: solid;
+    }
+
+    #awayTeam {
+      display: flex;
+      justify-content: space-between;
+      border-style: solid;
+    }
+
+    #button {
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 0 10px 0;
+    }
   }
+
 }

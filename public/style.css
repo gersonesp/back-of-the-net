@@ -69,6 +69,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 1em 0 1em;
 }
 .matchesList .matchesHeader {
   width: 100%;
@@ -77,18 +78,35 @@ body {
 .matchesList .listAllMatches {
   width: 100%;
 }
-
-.oneMatch {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  border-style: solid;
-}
-.oneMatch .matchCard {
+.matchesList .oneMatch {
   display: flex;
   flex-direction: column;
   align-content: space-between;
+  margin-bottom: 1em;
+  border-style: solid;
+}
+.matchesList .oneMatch #day {
+  padding: 0.8em 1em 0 1em;
+  border-bottom: 1px solid;
+}
+.matchesList .oneMatch #teamContainer {
+  padding: 0.3em 2em 1em 2em;
+}
+.matchesList .oneMatch #homeTeam {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em 0 1em 0;
+  border-style: solid;
+}
+.matchesList .oneMatch #awayTeam {
+  display: flex;
+  justify-content: space-between;
+  border-style: solid;
+}
+.matchesList .oneMatch #button {
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0 10px 0;
 }
 
 /*# sourceMappingURL=style.css.map */
