@@ -17,11 +17,27 @@ class App extends Component {
   componentDidMount() {
     fetch("/api/matches")
       .then(response => response.json())
-      .then(matches =>
+      .then(data => {
+        const matches = data;
+        let date;
+        let seen = {};
+        let groupedByDate = {};
+
+        for (let i = 0; i < matches.length; i++) {
+          date = matches[i].day;
+
+          if (!seen[date]) {
+            groupedByDate[date] = [matches[i]];
+            seen[date] = true;
+          } else {
+            groupedByDate[date].push(matches[i]);
+          }
+        }
+
         this.setState({
-          matches
-        })
-      );
+          matches: groupedByDate
+        });
+      });
   }
 
   render() {

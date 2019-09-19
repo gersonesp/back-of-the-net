@@ -1,5 +1,7 @@
 $green-primary: #71b350;
 $purple: #8879f2;
+$gray: #808080;
+$light-gray: #e6e6e6;
 
 html * {
   font-family: "Roboto", sans-serif;
@@ -76,7 +78,6 @@ body {
   }
 }
 
-
 //Matches Component
 .matchesList {
   display: flex;
@@ -98,15 +99,17 @@ body {
     flex-direction: column;
     align-content: space-between;
     margin-bottom: 1em;
-    border-style: solid;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
 
     #day {
-      padding: .8em 1em 0 1em;
-      border-bottom: 1px solid;
+      padding: 0.8em 1em 0 1em;
+      color: $gray;
+      border-bottom: 1px solid $light-gray;
     }
 
     #teamContainer {
-      padding: .3em 2em 1em 2em;
+      padding: 0.3em 2em 1em 2em;
     }
 
     #homeTeam {
@@ -128,5 +131,4 @@ body {
       margin: 10px 0 10px 0;
     }
   }
-
 }

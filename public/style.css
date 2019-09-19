@@ -83,11 +83,13 @@ body {
   flex-direction: column;
   align-content: space-between;
   margin-bottom: 1em;
-  border-style: solid;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 }
 .matchesList .oneMatch #day {
   padding: 0.8em 1em 0 1em;
-  border-bottom: 1px solid;
+  color: #808080;
+  border-bottom: 1px solid #e6e6e6;
 }
 .matchesList .oneMatch #teamContainer {
   padding: 0.3em 2em 1em 2em;
