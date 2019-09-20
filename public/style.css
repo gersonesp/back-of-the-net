@@ -69,11 +69,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 1em 0 1em;
+  margin: 0 1rem 0 1rem;
 }
 .matchesList .matchesHeader {
   width: 100%;
   text-align: center;
+  color: #404040;
+  margin: 1rem 0 1rem 0;
 }
 .matchesList .listAllMatches {
   width: 100%;
@@ -82,33 +84,52 @@ body {
   display: flex;
   flex-direction: column;
   align-content: space-between;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 .matchesList .oneMatch #day {
-  padding: 0.8em 1em 0 1em;
+  padding: 0.8rem 1rem 0 1rem;
   color: #808080;
   border-bottom: 1px solid #e6e6e6;
 }
-.matchesList .oneMatch #teamContainer {
-  padding: 0.3em 2em 1em 2em;
-}
-.matchesList .oneMatch #homeTeam {
-  display: flex;
-  justify-content: space-between;
-  margin: 1em 0 1em 0;
-  border-style: solid;
-}
-.matchesList .oneMatch #awayTeam {
-  display: flex;
-  justify-content: space-between;
-  border-style: solid;
-}
-.matchesList .oneMatch #button {
+.matchesList #button {
   display: inline-block;
-  font-size: 16px;
-  margin: 10px 0 10px 0;
+  font-size: 1rem;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+#teamContainer {
+  padding: 0.3rem 2rem 1rem 2rem;
+}
+#teamContainer #homeTeam {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0 1rem 0;
+}
+#teamContainer #homeTeam input[type=number] {
+  text-align: center;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+#teamContainer #homeTeam input[type=number]::-webkit-inner-spin-button,
+#teamContainer #homeTeam input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+#teamContainer #awayTeam {
+  display: flex;
+  justify-content: space-between;
+}
+#teamContainer #awayTeam input[type=number] {
+  text-align: center;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+#teamContainer #awayTeam input[type=number]::-webkit-inner-spin-button,
+#teamContainer #awayTeam input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 /*# sourceMappingURL=style.css.map */

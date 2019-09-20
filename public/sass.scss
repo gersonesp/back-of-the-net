@@ -2,6 +2,8 @@ $green-primary: #71b350;
 $purple: #8879f2;
 $gray: #808080;
 $light-gray: #e6e6e6;
+$medium-gray: #404040;
+$rem: 10rem;
 
 html * {
   font-family: "Roboto", sans-serif;
@@ -83,11 +85,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 1em 0 1em;
+  margin: 0 1rem 0 1rem;
 
   .matchesHeader {
     width: 100%;
     text-align: center;
+    color: $medium-gray;
+    margin: 1rem 0 1rem 0;
   }
 
   .listAllMatches {
@@ -98,37 +102,61 @@ body {
     display: flex;
     flex-direction: column;
     align-content: space-between;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 
     #day {
-      padding: 0.8em 1em 0 1em;
+      padding: 0.8rem 1rem 0 1rem;
       color: $gray;
       border-bottom: 1px solid $light-gray;
     }
+  }
 
-    #teamContainer {
-      padding: 0.3em 2em 1em 2em;
+  #button {
+    display: inline-block;
+    font-size: 1rem;
+    margin: .5rem 0 .5rem 0;
+  }
+}
+
+//matchDay component
+#teamContainer {
+  padding: 0.3rem 2rem 1rem 2rem;
+
+
+  #homeTeam {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0 1rem 0;
+
+    input[type="number"] {
+      text-align: center;
+      -webkit-appearance: textfield;
+      -moz-appearance: textfield;
+      appearance: textfield;
     }
 
-    #homeTeam {
-      display: flex;
-      justify-content: space-between;
-      margin: 1em 0 1em 0;
-      border-style: solid;
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+  }
+
+  #awayTeam {
+    display: flex;
+    justify-content: space-between;
+
+    input[type="number"] {
+      text-align: center;
+      -webkit-appearance: textfield;
+      -moz-appearance: textfield;
+      appearance: textfield;
     }
 
-    #awayTeam {
-      display: flex;
-      justify-content: space-between;
-      border-style: solid;
-    }
-
-    #button {
-      display: inline-block;
-      font-size: 16px;
-      margin: 10px 0 10px 0;
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
     }
   }
 }
