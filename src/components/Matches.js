@@ -14,16 +14,16 @@ class Matches extends Component {
   }
 
   componentDidMount() {
-    let data = this.props.matches;
+    let data = this.props.teams;
 
-    return Object.keys(data).map(match => {
-      return data[match].map(team => {
-        return this.setState({
-          [`${team.homeTeam}-${team.day}`]: 0,
-          [`${team.awayTeam}-${team.day}`]: 0
-        });
-      });
-    });
+    // return Object.keys(data).map(match => {
+    //   return data[match].map(team => {
+    //     return this.setState({
+    //       [`${team.homeTeam}-${team.day}`]: 0,
+    //       [`${team.awayTeam}-${team.day}`]: 0
+    //     });
+    //   });
+    // });
   }
 
   handleSubmit(event) {
@@ -52,8 +52,10 @@ class Matches extends Component {
   }
 
   render() {
-    const listOfMatches = this.props.matches;
-    console.log(this.state);
+    const teams = this.props.teams;
+    const fixtures = this.props.fixtures;
+    console.log("Teams: ", teams);
+    console.log("Fixtures: ", fixtures);
 
     return (
       this.state && (
@@ -61,7 +63,7 @@ class Matches extends Component {
           <div className="matchesHeader">Gameweek</div>
 
           <div className="listAllMatches">
-            {Object.keys(listOfMatches).map((match, i) => (
+            {/* {Object.keys(listOfMatches).map((match, i) => (
               <div className="oneMatch" key={i}>
                 <div id="day">{match}</div>
                 <MatchDay
@@ -72,7 +74,7 @@ class Matches extends Component {
                   decrease={this.decrease}
                 />
               </div>
-            ))}
+            ))} */}
           </div>
 
           <button type="submit" value="Submit" id="button">

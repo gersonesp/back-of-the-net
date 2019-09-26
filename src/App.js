@@ -15,29 +15,21 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("/api/matches")
+    fetch("/api/teams")
       .then(response => response.json())
       .then(data => {
-        const matches = data;
-        let date;
-        let seen = {};
-        let groupedByDate = {};
-
-        for (let i = 0; i < matches.length; i++) {
-          date = matches[i].day;
-
-          if (!seen[date]) {
-            groupedByDate[date] = [matches[i]];
-            seen[date] = true;
-          } else {
-            groupedByDate[date].push(matches[i]);
-          }
-        }
-
         this.setState({
-          matches: groupedByDate
+          teams: data
         });
       });
+
+    fetch("/api/fixtures")
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          fixtures: data
+        })
+      );
   }
 
   render() {
@@ -48,7 +40,13 @@ class App extends Component {
         <Route
           exact
           path="/"
-          render={props => <Matches {...props} matches={this.state.matches} />}
+          render={props => (
+            <Matches
+              {...props}
+              teams={this.state.teams}
+              fixtures={this.state.fixtures}
+            />
+          )}
         />
 
         <Route exact path="/players" component={Players} />

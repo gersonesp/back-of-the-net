@@ -1,25 +1,34 @@
+const axios = require("axios");
+const util = require("util");
+const request = require("request");
 const express = require("express");
 const app = express();
+
 const port = 1337;
 
-const unirest = require("unirest");
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
-const fixturesURL =
-  "https://sportdata.p.rapidapi.com/api/v1/free/soccer/matches/fixtures/premier-league";
+app.get("/api/teams", (req, res) => {
+  axios
+    .get("https://fantasy.premierleague.com/api/bootstrap-static/")
+    .then(response => res.send(response.data.teams))
+    .catch(error => console.error(error));
+});
 
-app.get("/api/matches", (req, res) => {
-  const fixtures = unirest("GET", fixturesURL);
+app.get("/api/fixtures", (req, res) => {
+  request(
+    { url: "https://fantasy.premierleague.com/api/fixtures/" },
+    (error, response, body) => {
+      if (error || response.statusCode !== 200) {
+        return res.status(500).json({ type: "error", message: error.message });
+      }
 
-  fixtures.headers({
-    "x-rapidapi-host": "sportdata.p.rapidapi.com",
-    "x-rapidapi-key": "0df4770dd9msh8ef7bba17c73268p104d3ajsn15854b41dc5e"
-  });
-
-  fixtures.end(function(data) {
-    if (data.error) throw new Error(data.error);
-
-    res.send(data.body);
-  });
+      res.json(JSON.parse(body));
+    }
+  );
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
