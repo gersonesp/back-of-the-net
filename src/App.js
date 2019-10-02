@@ -9,9 +9,7 @@ import LiveWatch from "./components/LiveWatch";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      matches: []
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -40,13 +38,7 @@ class App extends Component {
         <Route
           exact
           path="/"
-          render={props => (
-            <Matches
-              {...props}
-              teams={this.state.teams}
-              fixtures={this.state.fixtures}
-            />
-          )}
+          render={props => <Matches {...props} state={this.state} />}
         />
 
         <Route exact path="/players" component={Players} />

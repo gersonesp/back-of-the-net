@@ -1,65 +1,28 @@
 import React from "react";
 
 export default props => {
-  const matches = props.matchDayList;
+  const teamName = {};
+  const teams = props.teams;
+  if (typeof teams !== "undefined")
+    teams.map(team => (teamName[team.id] = team.name));
+  const fixtures = props.fixtures;
 
-  return matches.map(match => (
-    <div id="teamContainer" key={match.idd}>
-      <label id="homeTeam">
-        <div className="teamName">{match.homeTeam}</div>
+  return (
+    typeof fixtures !== "undefined" &&
+    fixtures.map(fixture => (
+      <div id="teamContainer" key={fixture.id}>
+        <label id="homeTeam">
+          <div className="teamName">{teamName[fixture.team_h]}</div>
 
-        <div>
-          <button
-            name={`${match.homeTeam}-${match.day}`}
-            onClick={props.decrease}
-          >
-            -
-          </button>
-          <input
-            id={`${match.homeTeam}-${match.day}`}
-            value={props.state[`${match.homeTeam}-${match.day}`] || 0}
-            name={`${match.homeTeam}-${match.day}`}
-            onChange={props.handleInput}
-            type="number"
-            min="0"
-            max="10"
-          />
-          <button
-            name={`${match.homeTeam}-${match.day}`}
-            onClick={props.increase}
-          >
-            +
-          </button>
-        </div>
-      </label>
+          <div>Home team inputs</div>
+        </label>
 
-      <label id="awayTeam">
-        <div className="teamName">{match.awayTeam}</div>
+        <label id="awayTeam">
+          <div className="teamName">{teamName[fixture.team_a]}</div>
 
-        <div>
-          <button
-            name={`${match.awayTeam}-${match.day}`}
-            onClick={props.decrease}
-          >
-            -
-          </button>
-          <input
-            id={`${match.awayTeam}-${match.day}`}
-            value={props.state[`${match.awayTeam}-${match.day}`] || 0}
-            name={`${match.awayTeam}-${match.day}`}
-            onChange={props.handleInput}
-            type="number"
-            min="0"
-            max="10"
-          />
-          <button
-            name={`${match.awayTeam}-${match.day}`}
-            onClick={props.increase}
-          >
-            +
-          </button>
-        </div>
-      </label>
-    </div>
-  ));
+          <div>Away team inputs</div>
+        </label>
+      </div>
+    ))
+  );
 };

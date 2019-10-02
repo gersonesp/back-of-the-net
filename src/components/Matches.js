@@ -1,29 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      predictions: {}
+      gameweek: 7
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
-  }
-
-  componentDidMount() {
-    let data = this.props.teams;
-
-    // return Object.keys(data).map(match => {
-    //   return data[match].map(team => {
-    //     return this.setState({
-    //       [`${team.homeTeam}-${team.day}`]: 0,
-    //       [`${team.awayTeam}-${team.day}`]: 0
-    //     });
-    //   });
-    // });
   }
 
   handleSubmit(event) {
@@ -52,36 +39,45 @@ class Matches extends Component {
   }
 
   render() {
-    const teams = this.props.teams;
-    const fixtures = this.props.fixtures;
-    console.log("Teams: ", teams);
-    console.log("Fixtures: ", fixtures);
+    const teams = this.props.state.teams;
+    const fixtures = this.props.state.fixtures;
+    console.log(fixtures);
 
     return (
-      this.state && (
-        <form className="matchesList" onSubmit={this.handleSubmit}>
-          <div className="matchesHeader">Gameweek</div>
-
+      <form className="matchesList" onSubmit={this.handleSubmit}>
+        {typeof fixtures !== "undefined" && (
           <div className="listAllMatches">
-            {/* {Object.keys(listOfMatches).map((match, i) => (
-              <div className="oneMatch" key={i}>
-                <div id="day">{match}</div>
-                <MatchDay
-                  matchDayList={listOfMatches[match]}
-                  handleInput={this.handleChange}
-                  state={this.state}
-                  increase={this.increase}
-                  decrease={this.decrease}
-                />
-              </div>
-            ))} */}
-          </div>
+            {/* grab only unique values for gameweeks then map array of unique values*/}
+            {[...new Set(fixtures.map(fixture => fixture.event))].map(
+              gameweek =>
+                gameweek === this.state.gameweek && (
+                  <div className="gameweekList">
+                    <div className="gameweekHeader" key={fixtures.id}>
+                      Gameweek {gameweek}
+                    </div>
+                    {fixtures.map(fixture => {
+                      if (fixture.event === gameweek) {
+                        return (
+                          <MatchDay
+                            className="oneMatch"
+                            teams={teams}
+                            fixtures={fixtures}
+                          />
+                        );
+                      }
+                    })}
 
-          <button type="submit" value="Submit" id="button">
-            Submit
-          </button>
-        </form>
-      )
+                    <div className="button">
+                      <button type="submit" value="Submit">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                )
+            )}
+          </div>
+        )}
+      </form>
     );
   }
 }

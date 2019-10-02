@@ -71,14 +71,19 @@ body {
   align-items: center;
   margin: 0 1rem 0 1rem;
 }
-.matchesList .matchesHeader {
+.matchesList .listAllMatches {
+  width: 100%;
+}
+.matchesList .gameweekHeader {
   width: 100%;
   text-align: center;
   color: #404040;
   margin: 1rem 0 1rem 0;
 }
-.matchesList .listAllMatches {
+.matchesList .gameweekList .button {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .matchesList .oneMatch {
   display: flex;
@@ -92,11 +97,6 @@ body {
   padding: 0.8rem 1rem 0 1rem;
   color: #808080;
   border-bottom: 1px solid #e6e6e6;
-}
-.matchesList #button {
-  display: inline-block;
-  font-size: 1rem;
-  margin: 0.5rem 0 0.5rem 0;
 }
 
 #teamContainer {

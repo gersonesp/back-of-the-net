@@ -87,15 +87,23 @@ body {
   align-items: center;
   margin: 0 1rem 0 1rem;
 
-  .matchesHeader {
+  .listAllMatches {
+    width: 100%;
+  }
+
+  .gameweekHeader {
     width: 100%;
     text-align: center;
     color: $medium-gray;
     margin: 1rem 0 1rem 0;
   }
 
-  .listAllMatches {
-    width: 100%;
+  .gameweekList {
+    .button {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   .oneMatch {
@@ -111,12 +119,6 @@ body {
       color: $gray;
       border-bottom: 1px solid $light-gray;
     }
-  }
-
-  #button {
-    display: inline-block;
-    font-size: 1rem;
-    margin: .5rem 0 .5rem 0;
   }
 }
 
