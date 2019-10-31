@@ -5,24 +5,34 @@ export default props => {
   const teams = props.teams;
   if (typeof teams !== "undefined")
     teams.map(team => (teamName[team.id] = team.name));
+
   const fixtures = props.fixtures;
+  const gameweek = props.gameweek;
 
   return (
     typeof fixtures !== "undefined" &&
-    fixtures.map(fixture => (
-      <div id="teamContainer" key={fixture.id}>
-        <label id="homeTeam">
-          <div className="teamName">{teamName[fixture.team_h]}</div>
+    fixtures.map(fixture => {
+      let matchDay;
 
-          <div>Home team inputs</div>
-        </label>
+      if (fixture.event === gameweek) {
+        return (
+          <div id="teamContainer" key={fixture.id}>
+            <label id="homeTeam">
+              <div className="teamName">{teamName[fixture.team_h]}</div>
 
-        <label id="awayTeam">
-          <div className="teamName">{teamName[fixture.team_a]}</div>
+              <div>Home team inputs</div>
+            </label>
 
-          <div>Away team inputs</div>
-        </label>
-      </div>
-    ))
+            <label id="awayTeam">
+              <div className="teamName">{teamName[fixture.team_a]}</div>
+
+              <div>Away team inputs</div>
+            </label>
+          </div>
+        );
+      }
+
+      return matchDay;
+    })
   );
 };

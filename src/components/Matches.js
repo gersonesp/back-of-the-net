@@ -1,11 +1,11 @@
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component } from "react";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameweek: 7
+      gameweek: 11
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,7 +41,6 @@ class Matches extends Component {
   render() {
     const teams = this.props.state.teams;
     const fixtures = this.props.state.fixtures;
-    console.log(fixtures);
 
     return (
       <form className="matchesList" onSubmit={this.handleSubmit}>
@@ -49,31 +48,23 @@ class Matches extends Component {
           <div className="listAllMatches">
             {/* grab only unique values for gameweeks then map array of unique values*/}
             {[...new Set(fixtures.map(fixture => fixture.event))].map(
-              gameweek =>
-                gameweek === this.state.gameweek && (
-                  <div className="gameweekList">
-                    <div className="gameweekHeader" key={fixtures.id}>
-                      Gameweek {gameweek}
-                    </div>
-                    {fixtures.map(fixture => {
-                      if (fixture.event === gameweek) {
-                        return (
-                          <MatchDay
-                            className="oneMatch"
-                            teams={teams}
-                            fixtures={fixtures}
-                          />
-                        );
-                      }
-                    })}
-
+              (gameweek, index) =>
+                gameweek === this.state.gameweek ? (
+                  <div className="gameweekList" key={index - gameweek}>
+                    <div className="gameweekHeader">Gameweek {gameweek}</div>
+                    <MatchDay
+                      className="oneMatch"
+                      teams={teams}
+                      fixtures={fixtures}
+                      gameweek={this.state.gameweek}
+                    />
                     <div className="button">
                       <button type="submit" value="Submit">
                         Submit
                       </button>
                     </div>
                   </div>
-                )
+                ) : null
             )}
           </div>
         )}
