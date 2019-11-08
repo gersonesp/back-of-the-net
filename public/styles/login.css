@@ -1,0 +1,61 @@
+html * {
+  font-family: "Roboto", sans-serif;
+  background-color: #71b350;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.Login {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+form {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+form input[type=text] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+form input[type=text]::-webkit-inner-spin-button,
+form input[type=text]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+form .buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border: 1px solid;
+}
+form button {
+  display: inline-block;
+  border: none;
+  padding: 0.5rem;
+  margin: 0;
+  text-decoration: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid white;
+  border-radius: 1rem;
+  width: 10rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/*# sourceMappingURL=login.css.map */

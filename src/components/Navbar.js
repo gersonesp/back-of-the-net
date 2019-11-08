@@ -2,12 +2,26 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   render() {
+    const signout = this.props.signout;
+
     return (
       <div className="navbar">
-        <NavLink to="/" className="heading">
-          <h5>Back of The Net</h5>
-        </NavLink>
+        <div className="heading">
+          <NavLink to="/" className="homeLink">
+            <h5>Back of The Net</h5>
+          </NavLink>
+
+          <div className="navButton">
+            <button type="button" onClick={signout}>
+              Sign out
+            </button>
+          </div>
+        </div>
 
         <ul>
           <li>

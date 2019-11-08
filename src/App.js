@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       user: {}
     };
+    this.signout = this.signout.bind(this);
   }
 
   componentDidMount() {
@@ -39,15 +40,13 @@ class App extends Component {
         const email = user.email;
         const photoURL = user.photoURL;
         const uid = user.uid;
-        const providerData = user.providerData;
 
         this.setState({
           user: {
             displayName,
             email,
             photoURL,
-            uid,
-            providerData
+            uid
           }
         });
       } else {
@@ -57,11 +56,16 @@ class App extends Component {
     });
   }
 
+  signout() {
+    this.setState({ user: null });
+    firebase.auth().signOut();
+  }
+
   render() {
     if (this.state.user) {
       return (
         <div className="App">
-          {this.state.user ? <Navbar /> : <Login />}
+          {this.state.user ? <Navbar signout={this.signout} /> : <Login />}
 
           <Route exact path="/login" component={Login} />
 
@@ -76,7 +80,7 @@ class App extends Component {
         </div>
       );
     } else {
-      return <Login />;
+      return <Login className="Login" />;
     }
   }
 }
