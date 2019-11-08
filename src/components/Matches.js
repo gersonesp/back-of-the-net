@@ -27,23 +27,52 @@ class Matches extends Component {
   }
 
   increase(event) {
+    let temp;
+    if (!this.state.hasOwnProperty([event.target.name])) {
+      temp = 1;
+    } else {
+      if (this.state[event.target.name] === 10) {
+        return;
+      }
+      temp = this.state[event.target.name] + 1;
+    }
+
     this.setState({
-      [`${event.target.name}`]: this.state[`${event.target.name}`] + 1
+      [event.target.name]: temp
     });
   }
 
   decrease(event) {
+    let temp;
+    if (
+      !this.state.hasOwnProperty([event.target.name]) ||
+      this.state[event.target.name] === 0
+    ) {
+      return false;
+    } else {
+      temp = this.state[event.target.name] - 1;
+    }
+
     this.setState({
-      [`${event.target.name}`]: this.state[`${event.target.name}`] - 1
+      [event.target.name]: temp
     });
+    console.log(this.state);
   }
+
+  // setGameWeek(gameweek) {
+  //   console.log(gameweek);
+  // }
 
   render() {
     const teams = this.props.state.teams;
     const fixtures = this.props.state.fixtures;
 
     return (
-      <form className="matchesList" onSubmit={this.handleSubmit}>
+      <form
+        className="matchesList"
+        onSubmit={this.handleSubmit}
+        onChange={this.handleChange}
+      >
         {typeof fixtures !== "undefined" && (
           <div className="listAllMatches">
             {/* grab only unique values for gameweeks then map array of unique values*/}
@@ -54,9 +83,13 @@ class Matches extends Component {
                     <div className="gameweekHeader">Gameweek {gameweek}</div>
                     <MatchDay
                       className="oneMatch"
+                      state={this.state}
                       teams={teams}
                       fixtures={fixtures}
                       gameweek={this.state.gameweek}
+                      increase={this.increase}
+                      decrease={this.decrease}
+                      addTeam={this.addTeam}
                     />
                     <div className="button">
                       <button type="submit" value="Submit">

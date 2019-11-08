@@ -2,13 +2,17 @@ import React from "react";
 
 export default props => {
   const teamName = {};
-  const teams = props.teams;
+  const { teams, fixtures, gameweek, increase, decrease, state } = props;
   if (typeof teams !== "undefined")
     teams.map(team => (teamName[team.id] = team.name));
 
-  const fixtures = props.fixtures;
-  const gameweek = props.gameweek;
-
+  // if (typeof fixtures !== "undefined") {
+  //   fixtures.map(gameweek => {
+  //     if (gameweek.kickoff_time <= new Date().toDateString()) {
+  //       console.log(gameweek.kickoff_time);
+  //     }
+  //   });
+  // }
   return (
     typeof fixtures !== "undefined" &&
     fixtures.map(fixture => {
@@ -20,13 +24,55 @@ export default props => {
             <label id="homeTeam">
               <div className="teamName">{teamName[fixture.team_h]}</div>
 
-              <div>Home team inputs</div>
+              <div>
+                <button
+                  onClick={decrease}
+                  name={`${teamName[fixture.team_h]}-${fixture.id}`}
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  name={`${teamName[fixture.team_h]}-${fixture.id}`}
+                  value={state[`${teamName[fixture.team_h]}-${fixture.id}`]}
+                  defaultValue={0}
+                />
+                <button
+                  onClick={increase}
+                  name={`${teamName[fixture.team_h]}-${fixture.id}`}
+                >
+                  +
+                </button>
+              </div>
             </label>
 
             <label id="awayTeam">
               <div className="teamName">{teamName[fixture.team_a]}</div>
 
-              <div>Away team inputs</div>
+              <div>
+                <button
+                  onClick={decrease}
+                  name={`${teamName[fixture.team_a]}-${fixture.id}`}
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  name={`${teamName[fixture.team_a]}-${fixture.id}`}
+                  value={state[`${teamName[fixture.team_a]}-${fixture.id}`]}
+                  defaultValue={0}
+                />
+                <button
+                  onClick={increase}
+                  name={`${teamName[fixture.team_a]}-${fixture.id}`}
+                >
+                  +
+                </button>
+              </div>
             </label>
           </div>
         );

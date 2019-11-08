@@ -117,6 +117,9 @@ body {
 #teamContainer #homeTeam input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
+#teamContainer #homeTeam input[type=number] {
+  width: 1rem;
+}
 #teamContainer #awayTeam {
   display: flex;
   justify-content: space-between;
@@ -130,6 +133,9 @@ body {
 #teamContainer #awayTeam input[type=number]::-webkit-inner-spin-button,
 #teamContainer #awayTeam input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+}
+#teamContainer #awayTeam input[type=number] {
+  width: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */
