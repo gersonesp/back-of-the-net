@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
+
 $green-primary: #71b350;
 $purple: #8879f2;
 $gray: #808080;
@@ -21,7 +23,72 @@ body {
   height: 100%;
 }
 
-//Navbar Component
+//======================================================Login Component=========================================================
+
+.loginForm {
+  font-family: "Roboto", sans-serif;
+  background-color: $green-primary;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+
+  .inputContainer {
+
+    .label-input {
+      // margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      color: #ffffff;
+      border: none;
+      border-bottom: 2px solid #ffffff;
+      margin-bottom: 2rem;
+      margin-top: 1rem;
+    }
+  }
+
+  h1 {
+    text-align: center;
+    font-family: "Anton", sans-serif;
+    padding-bottom: 3em;
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  button {
+    display: inline-block;
+    border: none;
+    padding: 0.5rem;
+    margin: 0;
+    text-decoration: none;
+    background: white;
+    color: $green-primary;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 1rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+  }
+}
+
+//======================================================Navbar Component========================================================
 .navbar {
   margin: 0;
   padding: 0;
@@ -99,7 +166,7 @@ body {
   }
 }
 
-//Matches Component
+//===========================================================Matches Component==================================================
 .matchesList {
   display: flex;
   flex-direction: column;
@@ -141,7 +208,7 @@ body {
   }
 }
 
-//matchDay component
+//==================================================matchDay component==========================================================
 #teamContainer {
   padding: 0.3rem 2rem 1rem 2rem;
 
