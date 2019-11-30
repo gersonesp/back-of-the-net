@@ -86,6 +86,10 @@ body {
     -moz-appearance: none;
     width: 100%;
   }
+
+  .authError {
+    text-align: center;
+  }
 }
 
 //======================================================Navbar Component========================================================
@@ -199,19 +203,21 @@ body {
     margin-bottom: 1rem;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
+  }
 
-    #day {
-      padding: 0.8rem 1rem 0 1rem;
-      color: $gray;
-      border-bottom: 1px solid $light-gray;
-    }
+  .kickoffTime {
+    padding-top: .5rem;
+    padding-left: .5rem;
+    padding-bottom: .5rem;
+    color: $medium-gray;
+    border-bottom: 1px solid $light-gray;
   }
 }
 
 //==================================================matchDay component==========================================================
 #teamContainer {
   padding: 0.3rem 2rem 1rem 2rem;
-
+  border-bottom: 1px solid $light-gray;
 
   #homeTeam {
     display: flex;

@@ -6,7 +6,8 @@ export default class Login extends Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      error: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -14,13 +15,15 @@ export default class Login extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
+
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(function(error) {
+      .catch(error => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(`Error code: ${errorCode}, ${errorMessage}`);
+        this.setState({ error: errorCode });
       });
   }
 
@@ -33,6 +36,7 @@ export default class Login extends Component {
   }
 
   render() {
+    console.log(this.state.error);
     return (
       <form onSubmit={this.handleSubmit} className="loginForm">
         <div className="inputContainer">
@@ -59,6 +63,10 @@ export default class Login extends Component {
 
           <div className="buttonContainer">
             <button type="submit">Log In</button>
+          </div>
+
+          <div className="authError">
+            <p>{this.state.error}</p>
           </div>
         </div>
       </form>

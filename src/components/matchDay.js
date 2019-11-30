@@ -13,12 +13,29 @@ export default props => {
   //     }
   //   });
   // }
-  return (
-    typeof fixtures !== "undefined" &&
-    fixtures.map(fixture => {
-      let matchDay;
 
-      if (fixture.event === gameweek) {
+  const gameweekFixtures = fixtures.filter(
+    fixture => fixture.event === gameweek
+  );
+
+  const sameTime = {};
+
+  //group gameweek by  time of matches and save to sameTime variable
+  gameweekFixtures.map(fixture => {
+    if (sameTime.hasOwnProperty(fixture.kickoff_time)) {
+      return (sameTime[fixture.kickoff_time] = [
+        ...sameTime[fixture.kickoff_time],
+        fixture
+      ]);
+    } else {
+      return (sameTime[fixture.kickoff_time] = [fixture]);
+    }
+  });
+
+  return Object.values(sameTime).map((sametimeFixture, index) => (
+    <div key={index} className="oneMatch">
+      <div className="kickoffTime">{Object.keys(sameTime)[index]}</div>
+      {sametimeFixture.map(fixture => {
         return (
           <div id="teamContainer" key={fixture.id}>
             <label id="homeTeam">
@@ -76,9 +93,7 @@ export default props => {
             </label>
           </div>
         );
-      }
-
-      return matchDay;
-    })
-  );
+      })}
+    </div>
+  ));
 };

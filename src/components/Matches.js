@@ -5,7 +5,7 @@ class Matches extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameweek: 11
+      gameweek: 14
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -82,7 +82,6 @@ class Matches extends Component {
                   <div className="gameweekList" key={index - gameweek}>
                     <div className="gameweekHeader">Gameweek {gameweek}</div>
                     <MatchDay
-                      className="oneMatch"
                       state={this.state}
                       teams={teams}
                       fixtures={fixtures}
