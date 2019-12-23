@@ -1,28 +1,36 @@
 import React, { Component } from "react";
+import { predictions } from "../firebase";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameweek: 14
+      gameweek: 6
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
+    this.submitData = this.submitData.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
     document.querySelector(".matchesList").reset();
+  }
+
+  submitData() {
+    console.log(this.state);
+    predictions.set({
+      [this.state.gameweek]: this.state
+    });
   }
 
   handleChange(event) {
     let value = event.target.value;
     this.setState({
-      [event.target.name]: value
+      predictions: { ...this.state.predictions, [event.target.name]: value }
     });
   }
 
@@ -68,11 +76,7 @@ class Matches extends Component {
     const fixtures = this.props.state.fixtures;
 
     return (
-      <form
-        className="matchesList"
-        onSubmit={this.handleSubmit}
-        onChange={this.handleChange}
-      >
+      <form className="matchesList" onSubmit={this.handleSubmit}>
         {typeof fixtures !== "undefined" && (
           <div className="listAllMatches">
             {/* grab only unique values for gameweeks then map array of unique values*/}
@@ -89,9 +93,15 @@ class Matches extends Component {
                       increase={this.increase}
                       decrease={this.decrease}
                       addTeam={this.addTeam}
+                      onChange={this.handleChange}
                     />
                     <div className="button">
-                      <button type="submit" value="Submit">
+                      <button
+                        className="submitButton"
+                        type="submit"
+                        value="Submit"
+                        onClick={this.submitData}
+                      >
                         Submit
                       </button>
                     </div>
