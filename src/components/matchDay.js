@@ -6,14 +6,6 @@ export default props => {
   if (typeof teams !== "undefined")
     teams.map(team => (teamName[team.id] = team.name));
 
-  // if (typeof fixtures !== "undefined") {
-  //   fixtures.map(gameweek => {
-  //     if (gameweek.kickoff_time <= new Date().toDateString()) {
-  //       console.log(gameweek.kickoff_time);
-  //     }
-  //   });
-  // }
-
   const gameweekFixtures = fixtures.filter(
     fixture => fixture.event === gameweek
   );
