@@ -46,7 +46,15 @@ class Matches extends Component {
       const user = users.doc(userId);
       user.get().then(doc => {
         if (doc.exists) {
-          console.log("Document data:", doc.data());
+          this.setState({ btnDisabled: true });
+          this.setState({
+            predictions: doc.data()[this.updateGameWeek()]
+          });
+
+          const submitButton = document.querySelector(".submitButton");
+          submitButton.style.backgroundColor = "green";
+          submitButton.style.cursor = "default";
+          submitButton.innerHTML = "Submitted!";
         } else {
           console.log("No such document!");
         }
@@ -103,27 +111,37 @@ class Matches extends Component {
 
   increase(event) {
     let temp;
-    if (this.state.predictions[event.target.name] === 10) {
-      return;
-    }
-    temp = this.state.predictions[event.target.name] + 1;
 
-    this.setState({
-      predictions: { ...this.state.predictions, [event.target.name]: temp }
-    });
+    if (this.state.btnDisabled) {
+      alert("You already submitted your predictions!");
+    } else {
+      if (this.state.predictions[event.target.name] === 10) {
+        return;
+      }
+      temp = this.state.predictions[event.target.name] + 1;
+
+      this.setState({
+        predictions: { ...this.state.predictions, [event.target.name]: temp }
+      });
+    }
   }
 
   decrease(event) {
     let temp;
-    if (this.state.predictions[event.target.name] === 0) {
-      return false;
-    } else {
-      temp = this.state.predictions[event.target.name] - 1;
-    }
 
-    this.setState({
-      predictions: { ...this.state.predictions, [event.target.name]: temp }
-    });
+    if (this.state.btnDisabled) {
+      alert("You already submitted your predictions!");
+    } else {
+      if (this.state.predictions[event.target.name] === 0) {
+        return false;
+      } else {
+        temp = this.state.predictions[event.target.name] - 1;
+      }
+
+      this.setState({
+        predictions: { ...this.state.predictions, [event.target.name]: temp }
+      });
+    }
   }
 
   render() {

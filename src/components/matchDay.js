@@ -2,7 +2,15 @@ import React from "react";
 
 export default props => {
   const teamName = {};
-  const { teams, fixtures, gameweek, increase, decrease, state } = props;
+  const {
+    teams,
+    fixtures,
+    gameweek,
+    increase,
+    decrease,
+    state,
+    onChange
+  } = props;
   if (typeof teams !== "undefined")
     teams.map(team => (teamName[team.id] = team.name));
 
@@ -72,7 +80,11 @@ export default props => {
                     min="0"
                     max="10"
                     name={`${teamName[fixture.team_h]}`}
-                    value={state.predictions[`${teamName[fixture.team_h]}`]}
+                    value={
+                      state.predictions[`${teamName[fixture.team_h]}`] || 0
+                    }
+                    onChange={onChange}
+                    disabled={state.btnDisabled}
                   />
                   <button
                     onClick={increase}
@@ -102,7 +114,11 @@ export default props => {
                     min="0"
                     max="10"
                     name={`${teamName[fixture.team_a]}`}
-                    value={state.predictions[`${teamName[fixture.team_a]}`]}
+                    value={
+                      state.predictions[`${teamName[fixture.team_a]}`] || 0
+                    }
+                    onChange={onChange}
+                    disabled={state.btnDisabled}
                   />
                   <button
                     onClick={increase}
