@@ -45,11 +45,9 @@ class Matches extends Component {
     if (userId) {
       const user = users.doc(userId);
       user.get().then(doc => {
-        if (doc.exists) {
+        if (doc.data()[this.updateGameWeek()]) {
           this.setState({ btnDisabled: true });
-          this.setState({
-            predictions: doc.data()[this.updateGameWeek()]
-          });
+          this.setState({ predictions: doc.data()[this.updateGameWeek()] });
 
           const submitButton = document.querySelector(".submitButton");
           submitButton.style.backgroundColor = "green";
