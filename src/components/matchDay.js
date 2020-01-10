@@ -63,7 +63,7 @@ export default props => {
                 <div>
                   <button
                     onClick={decrease}
-                    name={`${teamName[fixture.team_h]}-${fixture.id}`}
+                    name={`${teamName[fixture.team_h]}`}
                   >
                     -
                   </button>
@@ -71,13 +71,12 @@ export default props => {
                     type="number"
                     min="0"
                     max="10"
-                    name={`${teamName[fixture.team_h]}-${fixture.id}`}
-                    value={state[`${teamName[fixture.team_h]}-${fixture.id}`]}
-                    defaultValue={0}
+                    name={`${teamName[fixture.team_h]}`}
+                    value={state.predictions[`${teamName[fixture.team_h]}`]}
                   />
                   <button
                     onClick={increase}
-                    name={`${teamName[fixture.team_h]}-${fixture.id}`}
+                    name={`${teamName[fixture.team_h]}`}
                   >
                     +
                   </button>
@@ -94,7 +93,7 @@ export default props => {
                 <div>
                   <button
                     onClick={decrease}
-                    name={`${teamName[fixture.team_a]}-${fixture.id}`}
+                    name={`${teamName[fixture.team_a]}`}
                   >
                     -
                   </button>
@@ -102,13 +101,12 @@ export default props => {
                     type="number"
                     min="0"
                     max="10"
-                    name={`${teamName[fixture.team_a]}-${fixture.id}`}
-                    value={state[`${teamName[fixture.team_a]}-${fixture.id}`]}
-                    defaultValue={0}
+                    name={`${teamName[fixture.team_a]}`}
+                    value={state.predictions[`${teamName[fixture.team_a]}`]}
                   />
                   <button
                     onClick={increase}
-                    name={`${teamName[fixture.team_a]}-${fixture.id}`}
+                    name={`${teamName[fixture.team_a]}`}
                   >
                     +
                   </button>

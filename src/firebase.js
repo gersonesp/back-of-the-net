@@ -20,6 +20,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-export const predictions = db.collection("users").doc("predictions");
+export const auth = firebase.auth();
+export const users = db.collection("users");
 
 export default firebase;

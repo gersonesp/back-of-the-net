@@ -1,17 +1,57 @@
 import React, { Component } from "react";
-import { predictions } from "../firebase";
+import { users } from "../firebase";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      btnDisabled: false,
+      predictions: {
+        "Sheffield Utd": 0,
+        "West Ham": 0,
+        "Crystal Palace": 0,
+        Arsenal: 0,
+        Chelsea: 0,
+        Burnley: 0,
+        Everton: 0,
+        Brighton: 0,
+        Leicester: 0,
+        Southampton: 0,
+        "Man Utd": 0,
+        Norwich: 0,
+        Wolves: 0,
+        Newcastle: 0,
+        Spurs: 0,
+        Liverpool: 0,
+        Bournemouth: 0,
+        Watford: 0,
+        "Aston Villa": 0,
+        "Man City": 0
+      }
+    };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
     this.submitData = this.submitData.bind(this);
     this.updateGameWeek = this.updateGameWeek.bind(this);
+  }
+
+  componentDidMount() {
+    const userId = this.props.state.user.uid;
+
+    if (userId) {
+      const user = users.doc(userId);
+      user.get().then(doc => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+        } else {
+          console.log("No such document!");
+        }
+      });
+    }
   }
 
   updateGameWeek() {
@@ -33,17 +73,25 @@ class Matches extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    document.querySelector(".matchesList").reset();
   }
 
   submitData() {
+    const userId = this.props.state.user.uid;
+
+    users.doc(userId).update({
+      [this.updateGameWeek()]: this.state.predictions
+    });
+
     console.log(this.state);
-    predictions.set(
-      {
-        [this.updateGameWeek()]: this.state
-      },
-      true
-    );
+
+    this.setState({ btnDisabled: true });
+
+    // document.getElementsByClassName(".matchesList");
+
+    const submitButton = document.querySelector(".submitButton");
+    submitButton.style.backgroundColor = "green";
+    submitButton.style.cursor = "default";
+    submitButton.innerHTML = "Submitted!";
   }
 
   handleChange(event) {
@@ -55,33 +103,26 @@ class Matches extends Component {
 
   increase(event) {
     let temp;
-    if (!this.state.hasOwnProperty([event.target.name])) {
-      temp = 1;
-    } else {
-      if (this.state[event.target.name] === 10) {
-        return;
-      }
-      temp = this.state[event.target.name] + 1;
+    if (this.state.predictions[event.target.name] === 10) {
+      return;
     }
+    temp = this.state.predictions[event.target.name] + 1;
 
     this.setState({
-      [event.target.name]: temp
+      predictions: { ...this.state.predictions, [event.target.name]: temp }
     });
   }
 
   decrease(event) {
     let temp;
-    if (
-      !this.state.hasOwnProperty([event.target.name]) ||
-      this.state[event.target.name] === 0
-    ) {
+    if (this.state.predictions[event.target.name] === 0) {
       return false;
     } else {
-      temp = this.state[event.target.name] - 1;
+      temp = this.state.predictions[event.target.name] - 1;
     }
 
     this.setState({
-      [event.target.name]: temp
+      predictions: { ...this.state.predictions, [event.target.name]: temp }
     });
   }
 
@@ -117,6 +158,7 @@ class Matches extends Component {
                         type="submit"
                         value="Submit"
                         onClick={this.submitData}
+                        disabled={this.state.btnDisabled}
                       >
                         Submit
                       </button>

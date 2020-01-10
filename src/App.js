@@ -29,7 +29,8 @@ class App extends Component {
         this.setState({
           fixtures: data
         })
-      );
+      )
+      .catch(error => console.log(error.message));
   }
 
   authListener() {
