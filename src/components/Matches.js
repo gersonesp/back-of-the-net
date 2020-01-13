@@ -53,8 +53,15 @@ class Matches extends Component {
           submitButton.style.backgroundColor = "green";
           submitButton.style.cursor = "default";
           submitButton.innerHTML = "Submitted!";
+
+          const scoreButton = document.querySelectorAll(".scoreButton");
+          scoreButton.forEach(elem => {
+            elem.style.borderColor = "grey";
+            elem.style.color = "grey";
+            elem.style.cursor = "default";
+          });
         } else {
-          console.log("No such document!");
+          console.error("No such document!");
         }
       });
     }
@@ -88,11 +95,7 @@ class Matches extends Component {
       [this.updateGameWeek()]: this.state.predictions
     });
 
-    console.log(this.state);
-
     this.setState({ btnDisabled: true });
-
-    // document.getElementsByClassName(".matchesList");
 
     const submitButton = document.querySelector(".submitButton");
     submitButton.style.backgroundColor = "green";
@@ -110,36 +113,28 @@ class Matches extends Component {
   increase(event) {
     let temp;
 
-    if (this.state.btnDisabled) {
-      alert("You already submitted your predictions!");
-    } else {
-      if (this.state.predictions[event.target.name] === 10) {
-        return;
-      }
-      temp = this.state.predictions[event.target.name] + 1;
-
-      this.setState({
-        predictions: { ...this.state.predictions, [event.target.name]: temp }
-      });
+    if (this.state.predictions[event.target.name] === 10) {
+      return;
     }
+    temp = this.state.predictions[event.target.name] + 1;
+
+    this.setState({
+      predictions: { ...this.state.predictions, [event.target.name]: temp }
+    });
   }
 
   decrease(event) {
     let temp;
 
-    if (this.state.btnDisabled) {
-      alert("You already submitted your predictions!");
+    if (this.state.predictions[event.target.name] === 0) {
+      return false;
     } else {
-      if (this.state.predictions[event.target.name] === 0) {
-        return false;
-      } else {
-        temp = this.state.predictions[event.target.name] - 1;
-      }
-
-      this.setState({
-        predictions: { ...this.state.predictions, [event.target.name]: temp }
-      });
+      temp = this.state.predictions[event.target.name] - 1;
     }
+
+    this.setState({
+      predictions: { ...this.state.predictions, [event.target.name]: temp }
+    });
   }
 
   render() {

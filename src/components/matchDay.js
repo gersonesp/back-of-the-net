@@ -70,8 +70,10 @@ export default props => {
               <div>
                 <div>
                   <button
+                    className="scoreButton"
                     onClick={decrease}
                     name={`${teamName[fixture.team_h]}`}
+                    disabled={state.btnDisabled}
                   >
                     -
                   </button>
@@ -87,8 +89,10 @@ export default props => {
                     disabled={state.btnDisabled}
                   />
                   <button
+                    className="scoreButton"
                     onClick={increase}
                     name={`${teamName[fixture.team_h]}`}
+                    disabled={state.btnDisabled}
                   >
                     +
                   </button>
@@ -104,8 +108,10 @@ export default props => {
               <div>
                 <div>
                   <button
+                    className="scoreButton"
                     onClick={decrease}
                     name={`${teamName[fixture.team_a]}`}
+                    disabled={state.btnDisabled}
                   >
                     -
                   </button>
@@ -121,8 +127,10 @@ export default props => {
                     disabled={state.btnDisabled}
                   />
                   <button
+                    className="scoreButton"
                     onClick={increase}
                     name={`${teamName[fixture.team_a]}`}
+                    disabled={state.btnDisabled}
                   >
                     +
                   </button>
