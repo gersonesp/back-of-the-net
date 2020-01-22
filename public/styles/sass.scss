@@ -2,14 +2,16 @@
 
 $green-primary: #71b350;
 $purple: #8879f2;
-$gray: #808080;
+$gray: #646464;
 $light-gray: #e6e6e6;
-$medium-gray: #404040;
+$medium-gray: #bababa;
+$dark-grey: #404040;
 $button-color: #3A66FF;
 $rem: 10rem;
 
 html * {
   font-family: "Roboto", sans-serif;
+  color: $dark-grey;
 }
 
 body {
@@ -24,12 +26,15 @@ body {
   height: 100%;
 }
 
+input {
+  font-size: 1rem;
+}
+
 //======================================================Login Component=========================================================
 
 .loginForm {
   font-family: "Roboto", sans-serif;
   background-color: $green-primary;
-  color: #ffffff;
   margin: 0;
   padding: 0;
   display: flex;
@@ -41,7 +46,6 @@ body {
   .inputContainer {
 
     .label-input {
-      // margin-bottom: 3rem;
       display: flex;
       flex-direction: column;
     }
@@ -52,7 +56,7 @@ body {
       background: transparent;
       color: #ffffff;
       border: none;
-      border-bottom: 2px solid #ffffff;
+      border-bottom: 2px solid #e3fdd6;
       margin-bottom: 2rem;
       margin-top: 1rem;
     }
@@ -62,6 +66,11 @@ body {
     text-align: center;
     font-family: "Anton", sans-serif;
     padding-bottom: 3em;
+    color: #ffffff;
+  }
+
+  label {
+    color: #e3fdd6;
   }
 
   .buttonContainer {
@@ -146,6 +155,7 @@ body {
     height: 2.5rem;
     width: 100%;
     border-bottom: 3px solid transparent;
+    background-color: $green-primary;
   }
 
   a {
@@ -166,9 +176,15 @@ body {
     opacity: 0.7;
   }
 
+  ul li:hover {
+    background-color: #6aa84b;
+
+  }
+
   .navHeader {
     text-align: center;
   }
+
 }
 
 //===========================================================Matches Component==================================================
@@ -185,7 +201,6 @@ body {
   .gameweekHeader {
     width: 100%;
     text-align: center;
-    color: $medium-gray;
     margin: 1rem 0 1rem 0;
   }
 
@@ -208,9 +223,9 @@ body {
 
   .kickoffTime {
     padding-top: .5rem;
-    padding-left: .5rem;
+    padding-left: 1rem;
     padding-bottom: .5rem;
-    color: $medium-gray;
+    color: $gray;
     border-bottom: 1px solid $light-gray;
   }
 
@@ -220,9 +235,9 @@ body {
     color: #ffffff;
     border-radius: 4px;
     width: 100%;
-    height: 3rem;
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
+    padding: 10px 0 10px 0;
   }
 
   .submitButton:hover {
@@ -234,6 +249,18 @@ body {
 #teamContainer {
   padding: 0.3rem 2rem 1rem 2rem;
   border-bottom: 1px solid $light-gray;
+
+  .label-image {
+    display: grid;
+    grid-template-columns: 20px auto;
+    grid-gap: 1rem;
+
+    .teamImage {
+      max-height: 24px;
+      padding: 0;
+      margin: 0 auto;
+    }
+  }
 
   #homeTeam {
     display: flex;
@@ -254,7 +281,14 @@ body {
 
     input[type=number] {
       width: 1rem;
+      border: none;
+      background: none;
     }
+
+    input {
+      margin: 0 1rem 0 1rem;
+    }
+
   }
 
   #awayTeam {
@@ -275,16 +309,23 @@ body {
 
     input[type=number] {
       width: 1rem;
+      border: none;
+      background: none;
+    }
+
+    input {
+      margin: 0 1rem 0 1rem;
     }
   }
 
-  button {
+  .scoreButton {
     padding: 0;
-    margin: 0 1rem 0 1rem;
+    margin: 0;
     background: transparent;
     border: 1px solid $button-color;
     color: $button-color;
-    width: 1.2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
   }
 
@@ -292,4 +333,16 @@ body {
   button:hover {
     cursor: pointer;
   }
+}
+
+// media query 
+
+@media (min-width: 700px) {
+
+  .matchesList,
+  .navbar ul {
+    margin: 0 auto;
+    max-width: 700px;
+  }
+
 }

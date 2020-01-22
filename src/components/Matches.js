@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { users } from "../firebase";
+import { users, storageRef } from "../firebase";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {
@@ -7,6 +7,7 @@ class Matches extends Component {
     super(props);
     this.state = {
       btnDisabled: false,
+      images: {},
       predictions: {
         "Sheffield Utd": 0,
         "West Ham": 0,
@@ -50,20 +51,58 @@ class Matches extends Component {
           this.setState({ predictions: doc.data()[this.updateGameWeek()] });
 
           const submitButton = document.querySelector(".submitButton");
-          submitButton.style.backgroundColor = "green";
+          submitButton.style.backgroundColor = "#bababa";
           submitButton.style.cursor = "default";
-          submitButton.innerHTML = "Submitted!";
+          submitButton.innerHTML = "SUBMITTED!";
 
           const scoreButton = document.querySelectorAll(".scoreButton");
           scoreButton.forEach(elem => {
-            elem.style.borderColor = "grey";
-            elem.style.color = "grey";
+            elem.style.borderColor = "#bababa";
+            elem.style.color = "#bababa";
             elem.style.cursor = "default";
           });
         } else {
-          console.error("No such document!");
+          console.error("User doesn't exist!");
         }
       });
+    }
+
+    Object.keys(this.state.predictions).map(team => {
+      return storageRef
+        .child(`${team}.svg`)
+        .getDownloadURL()
+        .then(url => {
+          this.setState({ images: { ...this.state.images, [team]: url } });
+        });
+    });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      const userId = this.props.state.user.uid;
+
+      if (userId) {
+        const user = users.doc(userId);
+        user.get().then(doc => {
+          if (doc.data()[this.updateGameWeek()]) {
+            this.setState({ btnDisabled: true });
+            this.setState({ predictions: doc.data()[this.updateGameWeek()] });
+
+            const submitButton = document.querySelector(".submitButton");
+            submitButton.style.backgroundColor = "#bababa";
+            submitButton.style.cursor = "default";
+            submitButton.innerHTML = "SUBMITTED!";
+
+            const scoreButton = document.querySelectorAll(".scoreButton");
+            scoreButton.forEach(elem => {
+              elem.style.borderColor = "#bababa";
+              elem.style.color = "#bababa";
+              elem.style.cursor = "default";
+            });
+          } else {
+            console.error("User doesn't exist!");
+          }
+        });
+      }
     }
   }
 
@@ -98,9 +137,20 @@ class Matches extends Component {
     this.setState({ btnDisabled: true });
 
     const submitButton = document.querySelector(".submitButton");
-    submitButton.style.backgroundColor = "green";
+    submitButton.style.backgroundColor = "#71b350";
     submitButton.style.cursor = "default";
-    submitButton.innerHTML = "Submitted!";
+    submitButton.innerHTML = "SUBMITTED!";
+
+    const scoreButton = document.querySelectorAll(".scoreButton");
+    scoreButton.forEach(elem => {
+      elem.style.borderColor = "#bababa";
+      elem.style.color = "#bababa";
+      elem.style.cursor = "default";
+    });
+
+    setTimeout(() => {
+      submitButton.style.backgroundColor = "#bababa";
+    }, 3000);
   }
 
   handleChange(event) {
@@ -151,8 +201,11 @@ class Matches extends Component {
                 gameweek === this.updateGameWeek() ? (
                   <div className="gameweekList" key={index - gameweek}>
                     <div className="gameweekHeader">
-                      Gameweek {this.updateGameWeek()} of 38
+                      {this.state.btnDisabled
+                        ? `Your predictions for Gameweek ${this.updateGameWeek()} of 38`
+                        : `Gameweek ${this.updateGameWeek()} of 38`}
                     </div>
+
                     <MatchDay
                       state={this.state}
                       teams={teams}
@@ -163,6 +216,7 @@ class Matches extends Component {
                       addTeam={this.addTeam}
                       onChange={this.handleChange}
                     />
+
                     <div className="button">
                       <button
                         className="submitButton"
@@ -171,7 +225,7 @@ class Matches extends Component {
                         onClick={this.submitData}
                         disabled={this.state.btnDisabled}
                       >
-                        Submit
+                        SUBMIT
                       </button>
                     </div>
                   </div>

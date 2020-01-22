@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import firebase from "./firebase";
-import { Navbar, Login, Matches, Players, LiveWatch } from "./components";
+import { Navbar, Login, Matches, Table, LiveWatch } from "./components";
 
 class App extends Component {
   constructor(props) {
@@ -76,8 +76,13 @@ class App extends Component {
             render={props => <Matches {...props} state={this.state} />}
           />
 
-          <Route exact path="/players" component={Players} />
           <Route exact path="/livewatch" component={LiveWatch} />
+
+          <Route
+            exact
+            path="/table"
+            render={props => <Table {...props} state={this.state} />}
+          />
         </div>
       );
     } else {

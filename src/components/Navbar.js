@@ -38,22 +38,22 @@ class Navbar extends Component {
           <li>
             <NavLink
               exact
-              to="/players"
-              id="players"
+              to="/livewatch"
+              id="livewatch"
               activeStyle={{ opacity: "1", borderBottom: "3px solid #8879f2" }}
             >
-              Players
+              Live Watch
             </NavLink>
           </li>
 
           <li>
             <NavLink
               exact
-              to="/livewatch"
-              id="livewatch"
+              to="/table"
+              id="table"
               activeStyle={{ opacity: "1", borderBottom: "3px solid #8879f2" }}
             >
-              Live Watch
+              Table
             </NavLink>
           </li>
         </ul>

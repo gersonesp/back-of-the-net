@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
 html * {
   font-family: "Roboto", sans-serif;
+  color: #404040;
 }
 
 body {
@@ -15,10 +16,13 @@ body {
   height: 100%;
 }
 
+input {
+  font-size: 1rem;
+}
+
 .loginForm {
   font-family: "Roboto", sans-serif;
   background-color: #71b350;
-  color: #ffffff;
   margin: 0;
   padding: 0;
   display: flex;
@@ -36,7 +40,7 @@ body {
   background: transparent;
   color: #ffffff;
   border: none;
-  border-bottom: 2px solid #ffffff;
+  border-bottom: 2px solid #e3fdd6;
   margin-bottom: 2rem;
   margin-top: 1rem;
 }
@@ -44,6 +48,10 @@ body {
   text-align: center;
   font-family: "Anton", sans-serif;
   padding-bottom: 3em;
+  color: #ffffff;
+}
+.loginForm label {
+  color: #e3fdd6;
 }
 .loginForm .buttonContainer {
   display: flex;
@@ -118,6 +126,7 @@ body {
   height: 2.5rem;
   width: 100%;
   border-bottom: 3px solid transparent;
+  background-color: #71b350;
 }
 .navbar a {
   display: flex;
@@ -135,6 +144,9 @@ body {
 .navbar ul a {
   opacity: 0.7;
 }
+.navbar ul li:hover {
+  background-color: #6aa84b;
+}
 .navbar .navHeader {
   text-align: center;
 }
@@ -151,7 +163,6 @@ body {
 .matchesList .gameweekHeader {
   width: 100%;
   text-align: center;
-  color: #404040;
   margin: 1rem 0 1rem 0;
 }
 .matchesList .gameweekList .button {
@@ -169,9 +180,9 @@ body {
 }
 .matchesList .kickoffTime {
   padding-top: 0.5rem;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
   padding-bottom: 0.5rem;
-  color: #404040;
+  color: #646464;
   border-bottom: 1px solid #e6e6e6;
 }
 .matchesList .submitButton {
@@ -180,9 +191,9 @@ body {
   color: #ffffff;
   border-radius: 4px;
   width: 100%;
-  height: 3rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   margin-bottom: 2rem;
+  padding: 10px 0 10px 0;
 }
 .matchesList .submitButton:hover {
   cursor: pointer;
@@ -191,6 +202,16 @@ body {
 #teamContainer {
   padding: 0.3rem 2rem 1rem 2rem;
   border-bottom: 1px solid #e6e6e6;
+}
+#teamContainer .label-image {
+  display: grid;
+  grid-template-columns: 20px auto;
+  grid-gap: 1rem;
+}
+#teamContainer .label-image .teamImage {
+  max-height: 24px;
+  padding: 0;
+  margin: 0 auto;
 }
 #teamContainer #homeTeam {
   display: flex;
@@ -209,6 +230,11 @@ body {
 }
 #teamContainer #homeTeam input[type=number] {
   width: 1rem;
+  border: none;
+  background: none;
+}
+#teamContainer #homeTeam input {
+  margin: 0 1rem 0 1rem;
 }
 #teamContainer #awayTeam {
   display: flex;
@@ -226,18 +252,32 @@ body {
 }
 #teamContainer #awayTeam input[type=number] {
   width: 1rem;
+  border: none;
+  background: none;
 }
-#teamContainer button {
-  padding: 0;
+#teamContainer #awayTeam input {
   margin: 0 1rem 0 1rem;
+}
+#teamContainer .scoreButton {
+  padding: 0;
+  margin: 0;
   background: transparent;
   border: 1px solid #3A66FF;
   color: #3A66FF;
-  width: 1.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
 }
 #teamContainer button:hover {
   cursor: pointer;
+}
+
+@media (min-width: 700px) {
+  .matchesList,
+.navbar ul {
+    margin: 0 auto;
+    max-width: 700px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

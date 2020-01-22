@@ -2,6 +2,7 @@ import React from "react";
 
 export default props => {
   const teamName = {};
+
   const {
     teams,
     fixtures,
@@ -11,6 +12,7 @@ export default props => {
     state,
     onChange
   } = props;
+
   if (typeof teams !== "undefined")
     teams.map(team => (teamName[team.id] = team.name));
 
@@ -60,38 +62,47 @@ export default props => {
         {convertTime(Object.keys(sameTime)[index])}
       </div>
       {sametimeFixture.map(fixture => {
+        let homeTeam = teamName[fixture.team_h];
+        let awayTeam = teamName[fixture.team_a];
+
         return (
           <div id="teamContainer" key={fixture.id}>
             <div id="homeTeam">
-              <label>
-                <div className="teamName">{teamName[fixture.team_h]}</div>
-              </label>
+              <div className="label-image">
+                <img
+                  className="teamImage"
+                  src={state.images[homeTeam]}
+                  alt=""
+                />
+                <label>
+                  <div className="teamName">{homeTeam}</div>
+                </label>
+              </div>
 
               <div>
                 <div>
                   <button
                     className="scoreButton"
                     onClick={decrease}
-                    name={`${teamName[fixture.team_h]}`}
+                    name={homeTeam}
                     disabled={state.btnDisabled}
                   >
                     -
                   </button>
                   <input
+                    readOnly
                     type="number"
                     min="0"
                     max="10"
-                    name={`${teamName[fixture.team_h]}`}
-                    value={
-                      state.predictions[`${teamName[fixture.team_h]}`] || 0
-                    }
+                    name={`${homeTeam}`}
+                    value={state.predictions[`${homeTeam}`] || 0}
                     onChange={onChange}
                     disabled={state.btnDisabled}
                   />
                   <button
                     className="scoreButton"
                     onClick={increase}
-                    name={`${teamName[fixture.team_h]}`}
+                    name={homeTeam}
                     disabled={state.btnDisabled}
                   >
                     +
@@ -101,35 +112,41 @@ export default props => {
             </div>
 
             <div id="awayTeam">
-              <label>
-                <div className="teamName">{teamName[fixture.team_a]}</div>
-              </label>
+              <div className="label-image">
+                <img
+                  className="teamImage"
+                  src={state.images[awayTeam]}
+                  alt=""
+                />
+                <label>
+                  <div className="teamName">{awayTeam}</div>
+                </label>
+              </div>
 
               <div>
                 <div>
                   <button
                     className="scoreButton"
                     onClick={decrease}
-                    name={`${teamName[fixture.team_a]}`}
+                    name={`${awayTeam}`}
                     disabled={state.btnDisabled}
                   >
                     -
                   </button>
                   <input
+                    readOnly
                     type="number"
                     min="0"
                     max="10"
-                    name={`${teamName[fixture.team_a]}`}
-                    value={
-                      state.predictions[`${teamName[fixture.team_a]}`] || 0
-                    }
+                    name={`${awayTeam}`}
+                    value={state.predictions[`${awayTeam}`] || 0}
                     onChange={onChange}
                     disabled={state.btnDisabled}
                   />
                   <button
                     className="scoreButton"
                     onClick={increase}
-                    name={`${teamName[fixture.team_a]}`}
+                    name={`${awayTeam}`}
                     disabled={state.btnDisabled}
                   >
                     +
