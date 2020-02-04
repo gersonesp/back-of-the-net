@@ -7,7 +7,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
+      fixtures: {},
+      gameweek: 1,
+      teams: [],
+      listOfTeams: {}
     };
     this.signout = this.signout.bind(this);
   }
@@ -18,18 +22,59 @@ class App extends Component {
     fetch("/api/teams")
       .then(response => response.json())
       .then(data => {
+        let listOfTeams = {};
+
+        data.map(team => (listOfTeams[team.id] = team.name));
+
         this.setState({
-          teams: data
+          teams: data,
+          listOfTeams
         });
       });
 
     fetch("/api/fixtures")
       .then(response => response.json())
-      .then(data =>
+      .then(data => {
+        const fixtures = data;
+
+        const updateGameWeek = () => {
+          return [
+            ...new Set(
+              fixtures.filter(fixture => {
+                const date = new Date();
+                return fixture.kickoff_time >= date.toISOString()
+                  ? fixture.event
+                  : null;
+              })
+            )
+          ][0].event;
+        };
+
+        const currentFixtures = fixtures.filter(
+          fixture => fixture.event === updateGameWeek()
+        );
+
+        const sameTime = {};
+
+        //group gameweek by kickoff_time of matches and save to sameTime variable
+        currentFixtures.map(fixture => {
+          let kickOffTime = fixture.kickoff_time.substring(0, 10);
+
+          if (sameTime.hasOwnProperty(kickOffTime)) {
+            return (sameTime[kickOffTime] = [
+              ...sameTime[kickOffTime],
+              fixture
+            ]);
+          } else {
+            return (sameTime[kickOffTime] = [fixture]);
+          }
+        });
+
         this.setState({
-          fixtures: data
-        })
-      )
+          fixtures: sameTime,
+          gameweek: updateGameWeek()
+        });
+      })
       .catch(error => console.log(error.message));
   }
 

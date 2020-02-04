@@ -8,28 +8,8 @@ class Matches extends Component {
     this.state = {
       btnDisabled: false,
       images: {},
-      predictions: {
-        "Sheffield Utd": 0,
-        "West Ham": 0,
-        "Crystal Palace": 0,
-        Arsenal: 0,
-        Chelsea: 0,
-        Burnley: 0,
-        Everton: 0,
-        Brighton: 0,
-        Leicester: 0,
-        Southampton: 0,
-        "Man Utd": 0,
-        Norwich: 0,
-        Wolves: 0,
-        Newcastle: 0,
-        Spurs: 0,
-        Liverpool: 0,
-        Bournemouth: 0,
-        Watford: 0,
-        "Aston Villa": 0,
-        "Man City": 0
-      }
+      predictions: {},
+      teams: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -37,18 +17,19 @@ class Matches extends Component {
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
     this.submitData = this.submitData.bind(this);
-    this.updateGameWeek = this.updateGameWeek.bind(this);
+    this.convertTime = this.convertTime.bind(this);
   }
 
   componentDidMount() {
     const userId = this.props.state.user.uid;
+    const gameweek = this.props.state.gameweek;
 
-    if (userId) {
+    if (userId && gameweek) {
       const user = users.doc(userId);
       user.get().then(doc => {
-        if (doc.data()[this.updateGameWeek()]) {
+        if (doc.data()[gameweek]) {
           this.setState({ btnDisabled: true });
-          this.setState({ predictions: doc.data()[this.updateGameWeek()] });
+          this.setState({ predictions: doc.data()[gameweek] });
 
           const submitButton = document.querySelector(".submitButton");
           submitButton.style.backgroundColor = "#bababa";
@@ -61,31 +42,22 @@ class Matches extends Component {
             elem.style.color = "#bababa";
             elem.style.cursor = "default";
           });
-        } else {
-          console.error("User doesn't exist!");
         }
       });
     }
-
-    Object.keys(this.state.predictions).map(team => {
-      return storageRef
-        .child(`${team}.svg`)
-        .getDownloadURL()
-        .then(url => {
-          this.setState({ images: { ...this.state.images, [team]: url } });
-        });
-    });
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
       const userId = this.props.state.user.uid;
+      const gameweek = this.props.state.gameweek;
 
       if (userId) {
         const user = users.doc(userId);
         user.get().then(doc => {
-          if (doc.data()[this.updateGameWeek()]) {
+          if (doc.data()[gameweek]) {
             this.setState({ btnDisabled: true });
-            this.setState({ predictions: doc.data()[this.updateGameWeek()] });
+            this.setState({ predictions: doc.data()[gameweek] });
 
             const submitButton = document.querySelector(".submitButton");
             submitButton.style.backgroundColor = "#bababa";
@@ -98,28 +70,40 @@ class Matches extends Component {
               elem.style.color = "#bababa";
               elem.style.cursor = "default";
             });
-          } else {
-            console.error("User doesn't exist!");
           }
         });
       }
     }
-  }
 
-  updateGameWeek() {
-    const fixtures = this.props.state.fixtures;
+    if (prevProps !== this.props) {
+      const teams = this.props.state.teams;
 
-    if (fixtures && typeof fixtures !== "undefined") {
-      return [
-        ...new Set(
-          fixtures.filter(fixture => {
-            const date = new Date();
-            return fixture.kickoff_time >= date.toISOString()
-              ? fixture.event
-              : null;
-          })
-        )
-      ][0].event;
+      let teamNames = {};
+      teams.map(team => (teamNames[team.id] = team.name));
+
+      let initialPredictions = {};
+      const gameweekMatches = Object.values(this.props.state.fixtures);
+
+      gameweekMatches.map(matches =>
+        matches.map(match => {
+          initialPredictions[`${teamNames[match.team_h]}-${match.id}`] = 0;
+          initialPredictions[`${teamNames[match.team_a]}-${match.id}`] = 0;
+        })
+      );
+
+      Object.values(teamNames).map(team => {
+        return storageRef
+          .child(`${team}.svg`)
+          .getDownloadURL()
+          .then(url => {
+            this.setState({ images: { ...this.state.images, [team]: url } });
+          });
+      });
+
+      this.setState({
+        predictions: initialPredictions,
+        teams: teamNames
+      });
     }
   }
 
@@ -131,7 +115,7 @@ class Matches extends Component {
     const userId = this.props.state.user.uid;
 
     users.doc(userId).update({
-      [this.updateGameWeek()]: this.state.predictions
+      [this.props.state.gameweek]: this.props.state.predictions
     });
 
     this.setState({ btnDisabled: true });
@@ -156,7 +140,10 @@ class Matches extends Component {
   handleChange(event) {
     let value = event.target.value;
     this.setState({
-      predictions: { ...this.state.predictions, [event.target.name]: value }
+      predictions: {
+        ...this.props.state.predictions,
+        [event.target.name]: value
+      }
     });
   }
 
@@ -187,52 +174,81 @@ class Matches extends Component {
     });
   }
 
+  //convert time to readable format
+  convertTime(time) {
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    const dateMilliSeconds = Date.parse(time);
+    const fullDate = new Date(dateMilliSeconds);
+    const day = fullDate.getUTCDay();
+    const date = fullDate.getUTCDate();
+    // The getUTCMonth() method returns the month (from 0 to 11) for the specified date, according to universal time.
+    const month = fullDate.getUTCMonth() + 1;
+    const year = fullDate.getUTCFullYear();
+
+    return `${weekdays[day]} ${month}/${date}/${year}`;
+  }
+
   render() {
-    const teams = this.props.state.teams;
     const fixtures = this.props.state.fixtures;
+    const currentGameweek = this.props.state.gameweek;
 
     return (
       <form className="matchesList" onSubmit={this.handleSubmit}>
-        {typeof fixtures !== "undefined" && (
+        {
           <div className="listAllMatches">
-            {/* grab only unique values for gameweeks then map array of unique values*/}
-            {[...new Set(fixtures.map(fixture => fixture.event))].map(
-              (gameweek, index) =>
-                gameweek === this.updateGameWeek() ? (
-                  <div className="gameweekList" key={index - gameweek}>
-                    <div className="gameweekHeader">
-                      {this.state.btnDisabled
-                        ? `Your predictions for Gameweek ${this.updateGameWeek()} of 38`
-                        : `Gameweek ${this.updateGameWeek()} of 38`}
-                    </div>
+            <div className="gameweekList">
+              <div className="gameweekHeader">
+                {this.state.btnDisabled
+                  ? `Your predictions for Gameweek ${currentGameweek} of 38`
+                  : `Gameweek ${currentGameweek} of 38`}
+              </div>
 
+              {Object.values(fixtures).map((matchDay, index) => (
+                <div key={index} className="oneMatch">
+                  <div className="kickoffTime">
+                    {this.convertTime(Object.keys(fixtures)[index])}
+                  </div>
+
+                  {matchDay.map(match => (
                     <MatchDay
+                      key={match.id}
+                      matchId={match.id}
                       state={this.state}
-                      teams={teams}
+                      teams={this.props.state.listOfTeams}
                       fixtures={fixtures}
-                      gameweek={this.updateGameWeek()}
                       increase={this.increase}
                       decrease={this.decrease}
                       addTeam={this.addTeam}
                       onChange={this.handleChange}
+                      homeTeam={match.team_h}
+                      awayTeam={match.team_a}
                     />
+                  ))}
+                </div>
+              ))}
 
-                    <div className="button">
-                      <button
-                        className="submitButton"
-                        type="submit"
-                        value="Submit"
-                        onClick={this.submitData}
-                        disabled={this.state.btnDisabled}
-                      >
-                        SUBMIT
-                      </button>
-                    </div>
-                  </div>
-                ) : null
-            )}
+              <div className="button">
+                <button
+                  className="submitButton"
+                  type="submit"
+                  value="Submit"
+                  onClick={this.submitData}
+                  disabled={this.state.btnDisabled}
+                >
+                  SUBMIT
+                </button>
+              </div>
+            </div>
           </div>
-        )}
+        }
       </form>
     );
   }
