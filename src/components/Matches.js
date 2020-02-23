@@ -59,10 +59,10 @@ class Matches extends Component {
             this.setState({ btnDisabled: true });
             this.setState({ predictions: doc.data()[gameweek] });
 
-            const submitButton = document.querySelector(".submitButton");
-            submitButton.style.backgroundColor = "#bababa";
-            submitButton.style.cursor = "default";
-            submitButton.innerHTML = "SUBMITTED!";
+            // const submitButton = document.querySelector(".submitButton");
+            // submitButton.style.backgroundColor = "#bababa";
+            // submitButton.style.cursor = "default";
+            // submitButton.innerHTML = "SUBMITTED!";
 
             const scoreButton = document.querySelectorAll(".scoreButton");
             scoreButton.forEach(elem => {
@@ -85,6 +85,7 @@ class Matches extends Component {
       const gameweekMatches = Object.values(this.props.state.fixtures);
 
       gameweekMatches.map(matches =>
+        // eslint-disable-next-line
         matches.map(match => {
           initialPredictions[`${teamNames[match.team_h]}-${match.id}`] = 0;
           initialPredictions[`${teamNames[match.team_a]}-${match.id}`] = 0;
@@ -115,7 +116,11 @@ class Matches extends Component {
     const userId = this.props.state.user.uid;
 
     users.doc(userId).update({
-      [this.props.state.gameweek]: this.props.state.predictions
+      [this.props.state.gameweek]: this.state.predictions
+    });
+
+    users.doc("allPredictions").update({
+      [`${userId}-${this.props.state.gameweek}`]: this.state.predictions
     });
 
     this.setState({ btnDisabled: true });

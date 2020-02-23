@@ -335,6 +335,22 @@ input {
   }
 }
 
+//==================================================LiveWatch component==========================================================
+
+.LiveWatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+
+
+
 // media query 
 
 @media (min-width: 700px) {

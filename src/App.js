@@ -11,7 +11,8 @@ class App extends Component {
       fixtures: {},
       gameweek: 1,
       teams: [],
-      listOfTeams: {}
+      listOfTeams: {},
+      allFixtures: {}
     };
     this.signout = this.signout.bind(this);
   }
@@ -36,6 +37,8 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         const fixtures = data;
+
+        this.setState({ allFixtures: data });
 
         const updateGameWeek = () => {
           return [
@@ -121,7 +124,11 @@ class App extends Component {
             render={props => <Matches {...props} state={this.state} />}
           />
 
-          <Route exact path="/livewatch" component={LiveWatch} />
+          <Route
+            exact
+            path="/livewatch"
+            render={props => <LiveWatch {...props} state={this.state} />}
+          />
 
           <Route
             exact
