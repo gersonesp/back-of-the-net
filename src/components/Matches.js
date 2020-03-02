@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { users, storageRef } from "../firebase";
+import { users, storageRef, db } from "../firebase";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {
@@ -9,7 +9,8 @@ class Matches extends Component {
       btnDisabled: false,
       images: {},
       predictions: {},
-      teams: []
+      teams: [],
+      userName: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -72,6 +73,14 @@ class Matches extends Component {
             });
           }
         });
+
+        users
+          .doc("name")
+          .get()
+          .then(doc => {
+            const listOfUserNames = doc.data();
+            return this.setState({ userName: listOfUserNames[userId] });
+          });
       }
     }
 
@@ -120,7 +129,12 @@ class Matches extends Component {
     });
 
     users.doc("allPredictions").update({
-      [`${userId}-${this.props.state.gameweek}`]: this.state.predictions
+      [`${userId}-${this.props.state.gameweek}`]: {
+        userId,
+        name: this.state.userName,
+        gameweek: this.props.state.gameweek,
+        predictions: this.state.predictions
+      }
     });
 
     this.setState({ btnDisabled: true });

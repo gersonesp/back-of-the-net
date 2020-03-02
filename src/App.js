@@ -12,7 +12,7 @@ class App extends Component {
       gameweek: 1,
       teams: [],
       listOfTeams: {},
-      allFixtures: {}
+      allFixtures: []
     };
     this.signout = this.signout.bind(this);
   }
