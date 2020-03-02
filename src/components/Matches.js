@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { users, storageRef, db } from "../firebase";
+import { users, storageRef } from "../firebase";
 import MatchDay from "./matchDay";
 
 class Matches extends Component {

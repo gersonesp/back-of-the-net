@@ -332,6 +332,14 @@ input {
   padding-bottom: 1rem;
 }
 
+.Table {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  margin-top: 10%;
+  font-size: 20px;
+}
+
 @media (min-width: 700px) {
   .matchesList,
 .navbar ul,

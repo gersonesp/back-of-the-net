@@ -4,21 +4,18 @@ import { users, storageRef } from "../firebase";
 class LiveWatch extends Component {
   constructor(props) {
     super(props);
-    this.state = { filteredFixtures: [], images: {}, userPredictions: {} };
+    this.state = {
+      filteredFixtures:
+        JSON.parse(localStorage.getItem("filteredFixtures")) || [],
+      images: {},
+      userPredictions: JSON.parse(localStorage.getItem("userPredictions")) || {}
+    };
   }
 
-  componentDidMount() {
-    if (this.props && typeof this.props !== "undefined") {
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
       const allFixtures = this.props.state.allFixtures;
       const gameweek = this.props.state.gameweek;
-
-      users
-        .doc("allPredictions")
-        .get()
-        .then(doc => {
-          this.setState({ userPredictions: doc.data() });
-        })
-        .catch(error => console.log(error));
 
       const filteredFixtures = allFixtures.filter(
         fixture => fixture.event === gameweek
@@ -26,7 +23,30 @@ class LiveWatch extends Component {
 
       filteredFixtures.sort((a, b) => b.event - a.event);
 
-      this.setState({ filteredFixtures });
+      this.setState(
+        {
+          filteredFixtures
+        },
+        localStorage.setItem(
+          "filteredFixtures",
+          JSON.stringify(this.state.filteredFixtures)
+        )
+      );
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+
+    if (this.props) {
+      const allFixtures = this.props.state.allFixtures;
+      const gameweek = this.props.state.gameweek;
+
+      const filteredFixtures = allFixtures.filter(
+        fixture => fixture.event === gameweek
+      );
+
+      filteredFixtures.sort((a, b) => b.event - a.event);
 
       const teams = this.props.state.teams;
 
@@ -41,7 +61,32 @@ class LiveWatch extends Component {
             this.setState({ images: { ...this.state.images, [team]: url } });
           });
       });
+
+      users
+        .doc("allPredictions")
+        .get()
+        .then(doc => {
+          this.setState(
+            { userPredictions: doc.data(), filteredFixtures },
+            () => {
+              localStorage.setItem(
+                "userPredictions",
+                JSON.stringify(this.state.userPredictions)
+              );
+
+              localStorage.setItem(
+                "filteredFixtures",
+                JSON.stringify(this.state.filteredFixtures)
+              );
+            }
+          );
+        })
+        .catch(error => console.log(error));
     }
+  }
+
+  componentWillMount() {
+    this._isMounted = false;
   }
 
   convertTime = time => {
@@ -72,63 +117,70 @@ class LiveWatch extends Component {
     const allUserPredictions = Object.values(this.state.userPredictions);
 
     return (
-      typeof fixtures !== "undefined" &&
-      typeof teams !== "undefined" && (
-        <div className="LiveWatch">
-          <div className="liveWatch-header">Live Scores</div>
-          {fixtures.map(fixture => (
-            <div key={fixture.id} className="scoreCard">
-              <div className="kickoffLive">
-                <div className="time">
-                  {this.convertTime(fixture.kickoff_time)}
-                </div>
-                <span className="live">{fixture.minutes}</span>
+      <div className="LiveWatch">
+        <div className="liveWatch-header">Live Scores</div>
+        {fixtures.map(fixture => (
+          <div key={fixture.id} className="scoreCard">
+            <div className="kickoffLive">
+              <div className="time">
+                {this.convertTime(fixture.kickoff_time)}
               </div>
-
-              <div className="liveGame">
-                <div className="team1">
-                  {typeof teams[fixture.team_h] !== "undefined" &&
-                    teams[fixture.team_h - 1].name}
-                  <img
-                    className="teamImage"
-                    src={images[teams[fixture.team_h - 1].name]}
-                    alt=""
-                  />
-                </div>
-                <div className="liveScore">
-                  {fixture.team_h_score}-{fixture.team_a_score}
-                </div>
-                <div className="team2">
-                  <img
-                    className="teamImage"
-                    src={images[teams[fixture.team_a - 1].name]}
-                    alt=""
-                  />
-                  {typeof teams[fixture.team_a] !== "undefined" &&
-                    teams[fixture.team_a - 1].name}
-                </div>
-              </div>
-
-              {allUserPredictions.map(user => {
-                const homeTeam = teams[fixture.team_h - 1].name;
-                const awayTeam = teams[fixture.team_a - 1].name;
-                return (
-                  <div className="playersPredictions">
-                    <div className="player">
-                      <div className="playerName">{user.name}</div>
-                      <div className="playerPrediction">
-                        {user.predictions[`${homeTeam}-${fixture.id}`]} -{" "}
-                        {user.predictions[`${awayTeam}-${fixture.id}`]}
-                      </div>
-                      <div />
-                    </div>
-                  </div>
-                );
-              })}
+              <span className="live">{fixture.minutes}</span>
             </div>
-          ))}
-        </div>
-      )
+
+            <div className="liveGame">
+              <div className="team1">
+                {typeof teams[fixture.team_h] !== "undefined"
+                  ? teams[fixture.team_h - 1].name
+                  : null}
+                <img
+                  className="teamImage"
+                  src={
+                    teams[fixture.team_h - 1].name
+                      ? images[teams[fixture.team_h - 1].name]
+                      : null
+                  }
+                  alt=""
+                />
+              </div>
+              <div className="liveScore">
+                {fixture.team_h_score}-{fixture.team_a_score}
+              </div>
+              <div className="team2">
+                <img
+                  className="teamImage"
+                  src={
+                    teams[fixture.team_a - 1].name
+                      ? images[teams[fixture.team_a - 1].name]
+                      : null
+                  }
+                  alt=""
+                />
+                {typeof teams[fixture.team_a] !== "undefined"
+                  ? teams[fixture.team_a - 1].name
+                  : null}
+              </div>
+            </div>
+
+            {allUserPredictions.map((user, i) => {
+              const homeTeam = teams[fixture.team_h - 1].name;
+              const awayTeam = teams[fixture.team_a - 1].name;
+              return (
+                <div className="playersPredictions" key={`p-${i}`}>
+                  <div className="player">
+                    <div className="playerName">{user.name}</div>
+                    <div className="playerPrediction">
+                      {user.predictions[`${homeTeam}-${fixture.id}`]} -{" "}
+                      {user.predictions[`${awayTeam}-${fixture.id}`]}
+                    </div>
+                    <div />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     );
   }
 }
