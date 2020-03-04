@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { users, storageRef } from "../firebase";
 import MatchDay from "./matchDay";
+import { NavLink } from "react-router-dom";
+
+const buttonStyle = {
+  backgroundColor: "#bababa",
+  cursor: "default"
+};
 
 class Matches extends Component {
   constructor(props) {
@@ -31,18 +37,6 @@ class Matches extends Component {
         if (doc.data()[gameweek]) {
           this.setState({ btnDisabled: true });
           this.setState({ predictions: doc.data()[gameweek] });
-
-          const submitButton = document.querySelector(".submitButton");
-          submitButton.style.backgroundColor = "#bababa";
-          submitButton.style.cursor = "default";
-          submitButton.innerHTML = "SUBMITTED!";
-
-          const scoreButton = document.querySelectorAll(".scoreButton");
-          scoreButton.forEach(elem => {
-            elem.style.borderColor = "#bababa";
-            elem.style.color = "#bababa";
-            elem.style.cursor = "default";
-          });
         }
       });
     }
@@ -52,24 +46,27 @@ class Matches extends Component {
     if (prevState !== this.state) {
       const userId = this.props.state.user.uid;
       const gameweek = this.props.state.gameweek;
+      const teams = this.props.state.teams;
+
+      let teamNames = {};
+      teams.map(team => (teamNames[team.id] = team.name));
+
+      Object.values(teamNames).map(team => {
+        return storageRef
+          .child(`${team}.svg`)
+          .getDownloadURL()
+          .then(url => {
+            this.setState({ images: { ...this.state.images, [team]: url } });
+          });
+      });
 
       if (userId) {
         const user = users.doc(userId);
         user.get().then(doc => {
           if (doc.data()[gameweek]) {
-            this.setState({ btnDisabled: true });
-            this.setState({ predictions: doc.data()[gameweek] });
-
-            // const submitButton = document.querySelector(".submitButton");
-            // submitButton.style.backgroundColor = "#bababa";
-            // submitButton.style.cursor = "default";
-            // submitButton.innerHTML = "SUBMITTED!";
-
-            const scoreButton = document.querySelectorAll(".scoreButton");
-            scoreButton.forEach(elem => {
-              elem.style.borderColor = "#bababa";
-              elem.style.color = "#bababa";
-              elem.style.cursor = "default";
+            this.setState({
+              btnDisabled: true,
+              predictions: doc.data()[gameweek]
             });
           }
         });
@@ -101,15 +98,6 @@ class Matches extends Component {
         })
       );
 
-      Object.values(teamNames).map(team => {
-        return storageRef
-          .child(`${team}.svg`)
-          .getDownloadURL()
-          .then(url => {
-            this.setState({ images: { ...this.state.images, [team]: url } });
-          });
-      });
-
       this.setState({
         predictions: initialPredictions,
         teams: teamNames
@@ -139,21 +127,12 @@ class Matches extends Component {
 
     this.setState({ btnDisabled: true });
 
-    const submitButton = document.querySelector(".submitButton");
-    submitButton.style.backgroundColor = "#71b350";
-    submitButton.style.cursor = "default";
-    submitButton.innerHTML = "SUBMITTED!";
-
     const scoreButton = document.querySelectorAll(".scoreButton");
     scoreButton.forEach(elem => {
       elem.style.borderColor = "#bababa";
       elem.style.color = "#bababa";
       elem.style.cursor = "default";
     });
-
-    setTimeout(() => {
-      submitButton.style.backgroundColor = "#bababa";
-    }, 3000);
   }
 
   handleChange(event) {
@@ -261,10 +240,19 @@ class Matches extends Component {
                   value="Submit"
                   onClick={this.submitData}
                   disabled={this.state.btnDisabled}
+                  style={this.state.btnDisabled ? buttonStyle : null}
                 >
-                  SUBMIT
+                  {this.state.btnDisabled ? "SUBMITTED!" : "SUBMIT"}
                 </button>
               </div>
+
+              {this.state.btnDisabled ? (
+                <div className="comparisonMessage">
+                  <NavLink to="/livewatch">
+                    Compare your predictions with the live score
+                  </NavLink>
+                </div>
+              ) : null}
             </div>
           </div>
         }

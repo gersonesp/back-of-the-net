@@ -1,5 +1,11 @@
 import React from "react";
 
+const buttonStyle = {
+  cursor: "default",
+  borderColor: "#bababa",
+  color: "#bababa"
+};
+
 export default props => {
   const {
     matchId,
@@ -37,6 +43,7 @@ export default props => {
                   onClick={decrease}
                   name={`${teams[homeTeam]}-${matchId}`}
                   disabled={state.btnDisabled}
+                  style={state.btnDisabled ? buttonStyle : null}
                 >
                   -
                 </button>
@@ -57,6 +64,7 @@ export default props => {
                   onClick={increase}
                   name={`${teams[homeTeam]}-${matchId}`}
                   disabled={state.btnDisabled}
+                  style={state.btnDisabled ? buttonStyle : null}
                 >
                   +
                 </button>
@@ -83,6 +91,7 @@ export default props => {
                   onClick={decrease}
                   name={`${teams[awayTeam]}-${matchId}`}
                   disabled={state.btnDisabled}
+                  style={state.btnDisabled ? buttonStyle : null}
                 >
                   -
                 </button>
@@ -103,6 +112,7 @@ export default props => {
                   onClick={increase}
                   name={`${teams[awayTeam]}-${matchId}`}
                   disabled={state.btnDisabled}
+                  style={state.btnDisabled ? buttonStyle : null}
                 >
                   +
                 </button>

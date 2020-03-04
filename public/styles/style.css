@@ -192,11 +192,19 @@ input {
   border-radius: 4px;
   width: 100%;
   font-size: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 10px 0 10px 0;
 }
 .matchesList .submitButton:hover {
   cursor: pointer;
+}
+.matchesList .comparisonMessage {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.matchesList .comparisonMessage a {
+  color: #3a66ff;
 }
 
 #teamContainer {
