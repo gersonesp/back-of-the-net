@@ -1,1 +1,1 @@
-web: npm i && nodemon && cd public && npm start
+web: npm i && cd server && nodemon && cd .. && npm start
