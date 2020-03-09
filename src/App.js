@@ -20,7 +20,7 @@ class App extends Component {
   componentDidMount() {
     this.authListener();
 
-    fetch("/api/teams")
+    fetch("https://back-of-the-net.herokuapp.com/api/teams")
       .then(response => response.json())
       .then(data => {
         let listOfTeams = {};
@@ -33,7 +33,7 @@ class App extends Component {
         });
       });
 
-    fetch("/api/fixtures")
+    fetch("https://back-of-the-net.herokuapp.com/api/fixtures")
       .then(response => response.json())
       .then(data => {
         const fixtures = data;
